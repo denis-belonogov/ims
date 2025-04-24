@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
 from app.models.product import Product
+from app.models.variant import Variant
 from .db import db
 from .config import Config
 
