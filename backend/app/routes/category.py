@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.models.category import Category
-
+from app.db import db
 category = Blueprint('categories', __name__)
 
 
@@ -23,5 +23,6 @@ def create_category():
         name=data['name'],
         description=data.get('description', '')
     )
-    new_category.save()
+    db.session.add(new_category)
+    db.session.commit()
     return jsonify(new_category.to_dict()), 201
