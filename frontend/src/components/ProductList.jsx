@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from 'react'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
-import { fetchProducts, updateProduct } from '../api/products'
+import { fetchProducts, updateProduct, deleteProduct } from '../api/products'
 import { Button } from 'primereact/button'
 import { useNavigate } from 'react-router-dom'
 
@@ -60,6 +60,9 @@ const reducer = (state, action) => {
                 }
             })
         }
+        case 'delete': {
+            return state.filter((item) => item.id !== action.id)
+        }
         default:
             return state
     }
@@ -113,6 +116,21 @@ const ProductList = () => {
             </div>
         )
     }
+
+    const deleteTemplate = (product) => {
+        return (
+            <Button
+                className="but"
+                text
+                icon="pi pi-trash"
+                onClick={() => {
+                    deleteProduct(product.id)
+                    dispatch({ type: 'delete', id: product.id })
+                }}
+            ></Button>
+        )
+    }
+
     return (
         <div>
             <DataTable value={products} tableStyle={{ minWidth: '50rem' }}>
@@ -123,6 +141,7 @@ const ProductList = () => {
                 <Column field="price" header="Price" body={priceBodyTemplate} />
                 <Column field="brand" header="Brand" />
                 <Column field="quantity" header="Quantity" body={(rowData) => quantityTemplate(rowData)} />
+                <Column header="Delete" body={(rowData) => deleteTemplate(rowData)} />
             </DataTable>
             <Button
                 label="Add Product"
@@ -131,7 +150,6 @@ const ProductList = () => {
                 onClick={() => navigate('/products/new')}
             />
             {products.some((p) => {
-                console.log(products)
                 return p.hasChanges
             }) && (
                 <Panel className="unsaved-banner">

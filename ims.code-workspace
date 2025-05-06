@@ -4,9 +4,6 @@
 			"path": "backend"
 		},
 		{
-			"path": "frontend"
-		},
-		{
 			"path": "."
 		}
 	],
@@ -15,7 +12,8 @@
 			"*": false,
 			"plaintext": false,
 			"markdown": false,
-			"scminput": false
+			"scminput": false,
+			"python": false
 		}
 	}
 }

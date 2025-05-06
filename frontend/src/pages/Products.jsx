@@ -1,7 +1,5 @@
 import React from 'react'
 import ProductList from '../components/ProductList'
-import { Button } from 'primereact/button'
-import { useNavigate } from 'react-router-dom'
 
 const Products = () => {
     return (
