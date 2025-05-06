@@ -79,7 +79,7 @@ const CreateProduct = () => {
                             />
                         </div>
                         <div className="flex flex-wrap gap-3 p-fluid">
-                            <div className="card flex-1 flex flex-wrap gap-3 p-fluid">
+                            <div className="card flex-1 flex flex-wrap gap-3">
                                 <label className="font-bold block mb-2">Category</label>
                                 <Dropdown
                                     value={category}
@@ -105,7 +105,7 @@ const CreateProduct = () => {
                                     />
                                 </Dialog>
                             </div>
-                            <div className="card flex flex-1 flex-wrap gap-3 p-fluid">
+                            <div className="card flex flex-1 flex-wrap gap-3">
                                 <label htmlFor="currency-germany" className="font-bold block mb-2">
                                     Brand
                                 </label>
@@ -119,7 +119,7 @@ const CreateProduct = () => {
                             </div>
                         </div>
                         <div className="flex flex-wrap gap-3 p-fluid">
-                            <div className="card flex flex-1 flex-wrap gap-3 p-fluid">
+                            <div className="card flex flex-1 flex-wrap gap-3">
                                 <label htmlFor="currency-germany" className="font-bold block mb-2">
                                     Price
                                 </label>
@@ -133,7 +133,7 @@ const CreateProduct = () => {
                                     placeholder="0,00 €"
                                 />
                             </div>{' '}
-                            <div className="card flex flex-1 flex-wrap gap-3 p-fluid">
+                            <div className="card flex flex-1 flex-wrap gap-3">
                                 <label htmlFor="currency-germany" className="font-bold block mb-2">
                                     Item Number
                                 </label>
@@ -271,7 +271,6 @@ const CreateProduct = () => {
             ></ShopifyCard>
 
             <Button
-                className="p-fluid"
                 onClick={() => {
                     createProduct({
                         name: name,
