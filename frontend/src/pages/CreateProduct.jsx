@@ -10,12 +10,17 @@ import { InputTextarea } from 'primereact/inputtextarea'
 import CreateCategoryForm from '../components/CreateCategoryForm'
 import { fetchCategories } from '../api/categories'
 import { createProduct } from '../api/products'
+import CurrencyInput from '../components/CurrencyInput'
+import NumberInput from '../components/NumberInput'
+import TextInput from '../components/TextInput'
+import TextAreaInput from '../components/TextAreaInput'
 
 import { Dialog } from 'primereact/dialog'
 
 import ShopifyCard from '../components/ShopifyCard'
+import VariantsEditor from '../components/VariantsEditor'
 
-const CreateProduct = () => {
+export default function CreateProduct() {
     const navigate = useNavigate()
     const [name, setName] = useState()
     const [price, setPrice] = useState()
@@ -26,7 +31,6 @@ const CreateProduct = () => {
     const [description, setDescription] = useState()
     const [category, setCategory] = useState()
     const [visible, setVisible] = useState()
-    const [variants, setVariants] = useState([])
     const [categories, setCategories] = useState([])
 
     const loadCategories = async () => {
@@ -58,36 +62,28 @@ const CreateProduct = () => {
                 title=""
                 children={
                     <>
-                        <div className="card flex flex-wrap gap-3 p-fluid">
-                            <label className="font-bold block mb-2">Name</label>
-                            <InputText
-                                className="rounded-2xl"
-                                placeholder="T-Shirt"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
-                        </div>
-
-                        <div className="card flex flex-column gap-3 p-fluid">
-                            <label className="font-bold text-left block mb-2">Description</label>
-
-                            <InputTextarea
-                                value={description}
-                                autoResize
-                                placeholder="Description"
-                                onChange={(e) => setDescription(e.target.value)}
-                            />
-                        </div>
-                        <div className="flex flex-wrap gap-3 p-fluid">
-                            <div className="card flex-1 flex flex-wrap gap-3">
-                                <label className="font-bold block mb-2">Category</label>
+                        <TextInput
+                            label="Name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="T-Shirt"
+                        />
+                        <TextAreaInput
+                            label="Description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Description"
+                        />
+                        <div className="flex gap-3 p-fluid">
+                            <div className="card flex-1 flex flex-column gap-3">
+                                <label className="font-bold text-left mb-2">Category</label>
                                 <Dropdown
                                     value={category}
                                     onChange={handleCategoryChange}
                                     options={categories}
                                     optionLabel="name"
                                     placeholder="Select a Category"
-                                    className="w-full text-left"
+                                    className="text-left"
                                 />
                                 <Dialog
                                     header="Create Category"
@@ -105,171 +101,47 @@ const CreateProduct = () => {
                                     />
                                 </Dialog>
                             </div>
-                            <div className="card flex flex-1 flex-wrap gap-3">
-                                <label htmlFor="currency-germany" className="font-bold block mb-2">
-                                    Brand
-                                </label>
-                                <InputText
-                                    value={brand}
-                                    onChange={(e) => {
-                                        setBrand(e.target.value)
-                                    }}
-                                    placeholder="Brand"
-                                />
-                            </div>
+                            <TextInput
+                                label="Brand"
+                                value={brand}
+                                onChange={(e) => setBrand(e.target.value)}
+                                placeholder="Brand"
+                                className="card flex flex-1 flex-wrap gap-3"
+                            />
+                        </div>
+                        <div className="flex gap-3 p-fluid">
+                            <CurrencyInput
+                                label="Price"
+                                value={price}
+                                onChange={(e) => setPrice(e.value)}
+                                className="card flex flex-1 flex-column gap-3"
+                            />
+                            <TextInput
+                                label="Item Number"
+                                value={itemNumber}
+                                onChange={(e) => setItemNumber(e.target.value.toUpperCase())}
+                                placeholder="ABC0123456789"
+                                className="card flex flex-1 flex-wrap gap-3"
+                            />
                         </div>
                         <div className="flex flex-wrap gap-3 p-fluid">
-                            <div className="card flex flex-1 flex-wrap gap-3">
-                                <label htmlFor="currency-germany" className="font-bold block mb-2">
-                                    Price
-                                </label>
-                                <InputNumber
-                                    inputId="currency-germany"
-                                    value={price}
-                                    onValueChange={(e) => setPrice(e.value)}
-                                    mode="currency"
-                                    currency="EUR"
-                                    locale="de-DE"
-                                    placeholder="0,00 €"
-                                />
-                            </div>{' '}
-                            <div className="card flex flex-1 flex-wrap gap-3">
-                                <label htmlFor="currency-germany" className="font-bold block mb-2">
-                                    Item Number
-                                </label>
-                                <InputText
-                                    value={itemNumber}
-                                    onChange={(e) => {
-                                        setItemNumber(e.target.value.toUpperCase())
-                                    }}
-                                    placeholder="ABC0123456789"
-                                />
-                            </div>
-                        </div>
-                        <div className="flex flex-wrap gap-3 p-fluid">
-                            <div className="card flex-1 flex flex-wrap gap-3">
-                                <label className="font-bold block mb-2">Quantity</label>
-                                <InputNumber
-                                    className="p-fluid"
-                                    value={quantity}
-                                    onValueChange={(e) => setQuantity(e.value)}
-                                    placeholder="0"
-                                    showButtons
-                                />
-                            </div>
-                            <div className="card flex flex-1 flex-wrap gap-3">
-                                <label className="font-bold block mb-2">Low Stock Threshold</label>
-                                <InputNumber
-                                    className="p-fluid"
-                                    value={threshold}
-                                    onValueChange={(e) => setThreshold(e.value)}
-                                    placeholder="0"
-                                    showButtons
-                                />
-                            </div>
+                            <NumberInput
+                                label="Quantity"
+                                value={quantity}
+                                onChange={(e) => setQuantity(e.value)}
+                                className="card flex flex-1 flex-wrap gap-3"
+                            />
+                            <NumberInput
+                                label="Low Stock Threshold"
+                                value={threshold}
+                                onChange={(e) => setThreshold(e.value)}
+                                className="card flex flex-1 flex-wrap gap-3"
+                            />
                         </div>
                     </>
                 }
             ></ShopifyCard>
-            <ShopifyCard
-                title=""
-                children={
-                    <>
-                        {variants.map((variant, index) => (
-                            <div className="shopify-inner-card" key={index}>
-                                <div className="flex flex-wrap gap-3 p-fluid" key={index}>
-                                    <div className="card flex-1 flex flex-wrap gap-3" key={index}>
-                                        {' '}
-                                        <label htmlFor="currency-germany" className="font-bold block mb-2">
-                                            Option Type
-                                        </label>
-                                        <div className="input-with-delete">
-                                            <InputText
-                                                value={variant.optionName}
-                                                placeholder="Type"
-                                                onChange={(e) => {
-                                                    let new_variants = [...variants]
-                                                    new_variants[index].optionName = e.target.value
-                                                    setVariants(new_variants)
-                                                }}
-                                            />
-                                            <Button
-                                                className="p-button-outlined p-button-danger custom-delete-button"
-                                                type="submit"
-                                                icon="pi pi-trash"
-                                                onClick={() => {
-                                                    let new_variants = [...variants]
-                                                    new_variants.splice(index, 1)
-                                                    setVariants(new_variants)
-                                                }}
-                                            ></Button>
-                                        </div>
-                                        <label htmlFor="currency-germany" className="font-bold block mb-2">
-                                            Attributes
-                                        </label>
-                                        {variant.optionValues.map((value, valIndex) => (
-                                            <div className="input-with-delete" key={valIndex}>
-                                                <InputText
-                                                    key={valIndex}
-                                                    value={value}
-                                                    className="custom-input"
-                                                    placeholder="Attribute"
-                                                    onChange={(e) => {
-                                                        let new_variants = [...variants]
-                                                        new_variants[index].optionValues[valIndex] = e.target.value
-                                                        setVariants(new_variants)
-                                                    }}
-                                                />
-                                                <Button
-                                                    className="p-button-outlined p-button-danger custom-delete-button"
-                                                    type="submit"
-                                                    icon="pi pi-trash"
-                                                    onClick={() => {
-                                                        let new_variants = [...variants]
-                                                        new_variants[index].optionValues.splice(valIndex, 1)
-                                                        setVariants(new_variants)
-                                                    }}
-                                                ></Button>
-                                            </div>
-                                        ))}
-                                        <Button
-                                            className="p-button-outlined p-button-secondary custom-add-option-button"
-                                            type="submit"
-                                            icon="pi pi-plus"
-                                            onClick={() => {
-                                                let new_variants = [...variants]
-                                                new_variants[index].optionValues = [
-                                                    ...new_variants[index].optionValues,
-                                                    '',
-                                                ]
-                                                setVariants(new_variants)
-                                            }}
-                                        >
-                                            Add Attribute
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                        <div className="flex flex-wrap gap-3 p-fluid">
-                            <div className="card flex-1 flex flex-wrap gap-3">
-                                <Button
-                                    className="p-button-outlined p-button-secondary custom-add-option-button"
-                                    type="submit"
-                                    icon="pi pi-plus"
-                                    onClick={() => {
-                                        setVariants([...variants, { optionName: '', optionValues: [''] }])
-                                    }}
-                                >
-                                    Add Variant
-                                </Button>
-                            </div>
-                        </div>
-                        <VariantList variants={variants} />
-                    </>
-                }
-            ></ShopifyCard>
-
+            <VariantsEditor />
             <Button
                 onClick={() => {
                     createProduct({
@@ -289,5 +161,3 @@ const CreateProduct = () => {
         </>
     )
 }
-
-export default CreateProduct

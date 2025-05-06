@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { InputText } from 'primereact/inputtext'
-import { Button } from 'primereact/button'
 import { InputNumber } from 'primereact/inputnumber'
 
 import ShopifyCard from '../components/ShopifyCard'
