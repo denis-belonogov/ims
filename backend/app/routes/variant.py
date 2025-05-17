@@ -23,11 +23,15 @@ def get_variant(variant_id):
 @variant_bp.route("/variants/", methods=["POST"])
 def create_variant():
     data = request.get_json()
+    required_fields = ["name", "product_id", "price", "quantity", "attributes"]
+    if any(required_field not in data.keys() for required_field in required_fields):
+        return jsonify({"message": "Required Field missing"}), 400
     new_variant = Variant(
         name=data["name"],
         product_id=data["product_id"],
-        price=data.get("price", 0),
-        stock=data.get("stock", 0),
+        price=data["price"],
+        stock=data.get["quantity"],
+        attributes=data["attributes"],
     )
     db.session.add(new_variant)
     try:
@@ -44,8 +48,8 @@ def update_variant(variant_id):
     variant = Variant.query.get_or_404(variant_id)
     variant.name = data.get("name", variant.name)
     variant.price = data.get("price", variant.price)
-    variant.quantity = data.get("stock", variant.quantity)
-    variant.item_number = data.get("stock", variant.item_number)
+    variant.quantity = data.get("quantity", variant.quantity)
+    variant.attributes = data.get("attributes", variant.attributes)
     try:
         db.session.commit()
     except IntegrityError:

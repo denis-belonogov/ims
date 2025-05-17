@@ -11,7 +11,7 @@ class Product(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
     name = Column(String(255), nullable=False, unique=True)
     item_number = Column(String(100), nullable=True, unique=False)
-    category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=True)
     brand = Column(String(100), nullable=True)
     description = Column(Text, nullable=True)
     image_url = Column(String(255), nullable=True)

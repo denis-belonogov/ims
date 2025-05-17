@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { InputText } from 'primereact/inputtext'
 import { InputNumber } from 'primereact/inputnumber'
 
@@ -81,28 +81,30 @@ export default function VariantList({ variants }) {
     }, [variants])
     return (
         <>
-            <h2>Variants</h2>
             {variants.length > 0 && (
-                <ShopifyCard
-                    title=""
-                    children={
-                        <DataTable
-                            value={variantList}
-                            rowGroupMode="subheader"
-                            groupRowsBy="parent"
-                            expandableRowGroups
-                            expandedRows={expandedRows}
-                            onRowToggle={(e) => setExpandedRows(e.data)}
-                            rowGroupHeaderTemplate={headerTemplate}
-                            tableStyle={{ minWidth: '50rem' }}
-                        >
-                            <Column field="name" header="Name" style={{ width: '20%' }}></Column>
-                            <Column field="price" header="Price" style={{ width: '20%' }}></Column>
-                            <Column field="quantity" header="Quantity" style={{ width: '20%' }}></Column>
-                            <Column field="item_number" header="Artikelnummer" style={{ width: '20%' }}></Column>
-                        </DataTable>
-                    }
-                ></ShopifyCard>
+                <>
+                    <h2>Variants</h2>
+                    <ShopifyCard
+                        title=""
+                        children={
+                            <DataTable
+                                value={variantList}
+                                rowGroupMode="subheader"
+                                groupRowsBy="parent"
+                                expandableRowGroups
+                                expandedRows={expandedRows}
+                                onRowToggle={(e) => setExpandedRows(e.data)}
+                                rowGroupHeaderTemplate={headerTemplate}
+                                tableStyle={{ minWidth: '50rem' }}
+                            >
+                                <Column field="name" header="Name" style={{ width: '20%' }}></Column>
+                                <Column field="price" header="Price" style={{ width: '20%' }}></Column>
+                                <Column field="quantity" header="Quantity" style={{ width: '20%' }}></Column>
+                                <Column field="item_number" header="Artikelnummer" style={{ width: '20%' }}></Column>
+                            </DataTable>
+                        }
+                    ></ShopifyCard>
+                </>
             )}
         </>
     )

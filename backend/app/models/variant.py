@@ -1,8 +1,7 @@
-from sqlalchemy import Column, String, Integer, Numeric, ForeignKey
+from sqlalchemy import Column, String, Integer, Numeric, ForeignKey, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from app.db import db  # Use the db instance from Flask-SQLAlchemy
-from datetime import datetime
 
 
 class Variant(db.Model):
@@ -10,11 +9,11 @@ class Variant(db.Model):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     product_id = Column(Integer, ForeignKey("products.id"), nullable=False)
-    item_number = Column(String(100), nullable=True, unique=False)
+    item_number = Column(String(100))
     price = Column(Numeric(10, 2), nullable=False)
     quantity = Column(Integer, nullable=False)
     product = relationship("Product", back_populates="variants")
-    variant_attributes = relationship("VariantAttribute", back_populates="variant")
+    attributes = Column(JSON, nullable=False)
 
     def __repr__(self):
         return f"<Variant(id={self.id}, product={self.product.to_dict()}, item_number={self.item_number}, price={self.price}, quantity={self.quantity})>"
@@ -26,5 +25,5 @@ class Variant(db.Model):
             "item_number": self.item_number,
             "price": float(self.price),
             "quantity": self.quantity,
-            "variant_attributes": self.variant_attributes.to_dict(),
+            "attributes": self.attributes,
         }

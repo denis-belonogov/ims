@@ -1,35 +1,56 @@
 import React, { useState } from 'react'
 import { Button } from 'primereact/button'
+import { useForm } from 'react-hook-form'
 
 import { createCategory } from '../api/categories'
 import TextInput from './TextInput'
 import TextAreaInput from './TextAreaInput'
 
-export default function CreateCategoryForm({ setVisible, loadCategories, setCategory }) {
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState()
+export default function CreateCategoryForm({ categories, setVisible, setValue, setCategories }) {
+    const defaultValues = {
+        name: '',
+        description: '',
+    }
 
-    const onClick = async () => {
+    const {
+        control,
+        formState: { errors },
+        handleSubmit,
+        reset,
+    } = useForm({ defaultValues })
+
+    const onSubmit = async (data) => {
         setVisible(false)
-        let category = await createCategory(name, description)
-        loadCategories()
-        setCategory(category.data)
+        let category = await createCategory(data.name, data.description)
+        let cats = categories
+        console.log(category)
+        setCategories([...cats, category.data])
+        setValue('category', category.data)
+        reset()
     }
 
     return (
-        <>
-            <TextInput label="Name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Cups" />
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <TextInput
+                label="Name"
+                name="name"
+                placeholder="T-Shirt"
+                control={control}
+                errors={errors}
+                rules={{ required: 'Name is required' }}
+            />
             <TextAreaInput
                 label="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                name="description"
+                control={control}
+                errors={errors}
                 placeholder="Description"
             />
             <div className="card flex justify-content-end">
-                <Button className="flex flex-wrap p-fluid" type="submit" onClick={onClick}>
+                <Button className="flex flex-wrap p-fluid" type="submit">
                     Create
                 </Button>
             </div>
-        </>
+        </form>
     )
 }
