@@ -19,7 +19,7 @@ export default function CreateProduct() {
         quantity: 0,
         threshold: 0,
         description: '',
-        category: {},
+        category: null,
     }
 
     const {
