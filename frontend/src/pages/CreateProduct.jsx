@@ -34,7 +34,7 @@ export default function CreateProduct() {
         createProduct({
             name: data.name,
             item_number: data.itemNumber,
-            category_id: category.id,
+            category_id: data.category?.id,
             description: data.description,
             price: data.price,
             quantity: data.quantity,
