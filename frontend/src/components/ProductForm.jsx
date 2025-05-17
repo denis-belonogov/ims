@@ -13,7 +13,7 @@ import { fetchCategories } from '../api/categories'
 
 export function ProductForm({ control, errors, setValue }) {
     const [categories, setCategories] = useState([])
-    const [visible, setVisible] = useState()
+    const [visible, setVisible] = useState(false)
 
     const loadCategories = async () => {
         console.log(categories.data)
@@ -46,7 +46,7 @@ export function ProductForm({ control, errors, setValue }) {
             />
             <TextAreaInput
                 label="Description"
-                name="name"
+                name="description"
                 control={control}
                 errors={errors}
                 placeholder="Description"
@@ -69,7 +69,7 @@ export function ProductForm({ control, errors, setValue }) {
                                     if (e.value.id === -1) {
                                         setVisible(true)
                                     } else {
-                                        field.onChange(e.target.value)
+                                        field.onChange(e.value)
                                     }
                                 }}
                                 options={categories}
