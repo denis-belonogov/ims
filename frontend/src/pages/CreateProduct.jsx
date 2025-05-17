@@ -10,7 +10,6 @@ import { ProductForm } from '../components/ProductForm'
 
 export default function CreateProduct() {
     const navigate = useNavigate()
-    const [category, setCategory] = useState()
 
     const defaultValues = {
         name: '',
@@ -51,15 +50,7 @@ export default function CreateProduct() {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <ShopifyCard
                     title=""
-                    children={
-                        <ProductForm
-                            control={control}
-                            errors={errors}
-                            category={category}
-                            setCategory={setCategory}
-                            setValue={setValue}
-                        />
-                    }
+                    children={<ProductForm control={control} errors={errors} setValue={setValue} />}
                 ></ShopifyCard>
                 <VariantsEditor />
                 <Button type="submit">Create</Button>

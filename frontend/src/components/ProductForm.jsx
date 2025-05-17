@@ -11,7 +11,7 @@ import { classNames } from 'primereact/utils'
 
 import { fetchCategories } from '../api/categories'
 
-export function ProductForm({ control, errors, setCategory, setValue }) {
+export function ProductForm({ control, errors, setValue }) {
     const [categories, setCategories] = useState([])
     const [visible, setVisible] = useState()
 
